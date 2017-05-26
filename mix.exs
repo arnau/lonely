@@ -4,17 +4,30 @@ defmodule Lonely.Mixfile do
   def project do
     [app: :lonely,
      version: "0.1.0",
+     description: description(),
      elixir: "~> 1.4",
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
      deps: deps(),
      aliases: aliases(),
 
+     # Package
+     package: [files: ["lib", "mix.exs", "README.md", "LICENSE"],
+               maintainers: ["Arnau Siches"],
+               licenses: ["MIT"],
+               links: %{"GitHub" => "https://github.com/arnau/lonely"}],
+
      # Docs
      name: "Lonely",
      source_url: "https://github.com/arnau/lonely",
      docs: [main: "Lonely",
             extras: ["README.md"]]]
+  end
+
+  def description do
+    """
+    Helpers to pipe through results (`{:ok, a} | {:error, e}`).
+    """
   end
 
   # Configuration for the OTP application
