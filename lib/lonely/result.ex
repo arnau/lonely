@@ -171,6 +171,27 @@ defmodule Lonely.Result do
     f.(e)
 
   @doc """
+  Filters a result value.
+
+      iex> import Lonely.Result
+      ...> filter_map({:ok, 1}, fn x -> x == 1 end, fn x -> x + x end)
+      {:ok, 2}
+
+      iex> import Lonely.Result
+      ...> filter_map({:ok, 1}, fn x -> x == 2 end, fn x -> x + x end)
+      {:ok, 1}
+
+      iex> import Lonely.Result
+      ...> filter_map({:error, :boom}, fn x -> x == 1 end, fn x -> x + x end)
+      {:error, :boom}
+  """
+  @spec filter_map(t, (a -> boolean), (t -> t)) :: t
+  def filter_map(a = {:ok, x}, f, g) do
+    if f.(x), do: map(a, g), else: a
+  end
+  def filter_map(e = {:error, _}, _f, _g), do: e
+
+  @doc """
   Checks if the result is ok.
 
       iex> import Lonely.Result
