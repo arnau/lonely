@@ -319,4 +319,29 @@ defmodule Lonely.Result do
     {:ok, [x | xs]}
   def cons({:ok, _}, e = {:error, _}), do: e
   def cons(e = {:error, _}, _), do: e
+
+  @doc """
+  Splits a result list into a list of results.
+
+      iex> import Lonely.Result
+      ...> split({:ok, []})
+      []
+
+      iex> import Lonely.Result
+      ...> split({:ok, [1]})
+      [{:ok, 1}]
+
+      iex> import Lonely.Result
+      ...> split({:ok, [1, 2]})
+      [{:ok, 1}, {:ok, 2}]
+
+      iex> import Lonely.Result
+      ...> split({:error, :boom})
+      {:error, :boom}
+  """
+  @spec split(t) :: [t]
+  def split({:ok, []}), do: []
+  def split({:ok, xs}) when is_list(xs), do:
+    Enum.map(xs, &({:ok, &1}))
+  def split(e = {:error, _}), do: e
 end
