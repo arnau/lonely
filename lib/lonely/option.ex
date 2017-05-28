@@ -57,6 +57,27 @@ defmodule Lonely.Option do
   def map_or(a, f, _), do: f.(a)
 
   @doc """
+  Filters a value and maps it over a function.
+
+      iex> import Lonely.Option
+      ...> filter_map(1, fn x -> x > 0 end, fn x -> x + x end)
+      2
+
+      iex> import Lonely.Option
+      ...> filter_map(-1, fn x -> x > 0 end, fn x -> x + x end)
+      -1
+
+      iex> import Lonely.Option
+      ...> filter_map(nil, fn x -> x > 0, fn x -> x + x end)
+      nil
+  """
+  @spec filter_map(t, (any -> boolean), (any -> t)) :: t
+  def filter_map(nil, _f, _g), do: nil
+  def filter_map(a, f, g) do
+    if f.(a), do: g.(a), else: a
+  end
+
+  @doc """
   Transforms an Option into a Result.
 
       iex> import Lonely.Option
