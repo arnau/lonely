@@ -14,7 +14,7 @@ You might want to check [some alternatives](https://hex.pm/packages?_utf8=%E2%9C
 
 ```elixir
 def deps do
-  [{:lonely, "~> 0.1.0"}]
+  [{:lonely, "~> 0.2.0"}]
 end
 ```
 
