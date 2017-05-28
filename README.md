@@ -1,6 +1,7 @@
 # Lonely
 
-Helpers to pipe through Results (`{:ok, a} | {:error, e}`).
+Helpers to pipe through Results (`{:ok, a} | {:error, e}`) or Options
+(`a | nil`).
 
 Thanks to [Railway Oriented Programming in
 Elixir](http://www.zohaib.me/railway-programming-pattern-in-elixir/) for the

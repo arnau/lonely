@@ -1,6 +1,22 @@
 defmodule Lonely.Option do
   @moduledoc """
   Handles any value that could be `nil` as well.
+
+  Some functions result in either the value or just `nil`. For these ocasions
+  you can either transform it to a result with `Lonely.Result.wrap/1` or
+  use this module.
+
+      iex> import Lonely.Option
+      ...> [1, 2, 3]
+      ...> |> Enum.find(fn x -> x == 2 end)
+      ...> |> map(fn x -> x * 10 end)
+      20
+
+      iex> import Lonely.Option
+      ...> [1, 2, 3]
+      ...> |> Enum.find(fn x -> x == 10 end)
+      ...> |> map(fn x -> x * 10 end)
+      nil
   """
 
   alias Lonely.Result
@@ -24,6 +40,21 @@ defmodule Lonely.Option do
   @spec map(t, (any -> t)) :: t
   def map(nil, _f), do: nil
   def map(a, f), do: f.(a)
+
+  @doc """
+  Maps an option over a function or uses the provided default.
+
+      iex> import Lonely.Option
+      ...> map_or(1, fn x -> x + x end, 0)
+      2
+
+      iex> import Lonely.Option
+      ...> map_or(nil, fn x -> x + x end, 0)
+      0
+  """
+  @spec map_or(t, (any -> t), any) :: t
+  def map_or(nil, _f, default), do: default
+  def map_or(a, f, _), do: f.(a)
 
   @doc """
   Transforms an Option into a Result.
