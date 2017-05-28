@@ -68,7 +68,7 @@ defmodule Lonely.Option do
       -1
 
       iex> import Lonely.Option
-      ...> filter_map(nil, fn x -> x > 0, fn x -> x + x end)
+      ...> filter_map(nil, fn x -> x > 0 end, fn x -> x + x end)
       nil
   """
   @spec filter_map(t, (any -> boolean), (any -> t)) :: t
@@ -93,4 +93,19 @@ defmodule Lonely.Option do
     {:error, reason}
   def to_result(a, _reason), do:
     {:ok, a}
+
+  @doc """
+  Uses the default if `nil`.
+
+      iex> import Lonely.Option
+      ...> with_default(1, 0)
+      1
+
+      iex> import Lonely.Option
+      ...> with_default(nil, 0)
+      0
+  """
+  @spec with_default(t, any) :: any
+  def with_default(nil, default), do: default
+  def with_default(a, _), do: a
 end
