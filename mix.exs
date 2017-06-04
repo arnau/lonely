@@ -3,7 +3,7 @@ defmodule Lonely.Mixfile do
 
   def project do
     [app: :lonely,
-     version: "0.2.0",
+     version: "0.3.0",
      description: description(),
      elixir: "~> 1.4",
      build_embedded: Mix.env == :prod,
