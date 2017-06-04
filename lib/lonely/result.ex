@@ -221,6 +221,68 @@ defmodule Lonely.Result do
   def is_error(a), do: !is_ok(a)
 
   @doc """
+  Fits a tagged tuple into a Result.
+
+      iex> import Lonely.Result
+      ...> fit(:ok)
+      {:ok, nil}
+
+      iex> import Lonely.Result
+      ...> fit({:ok, 1})
+      {:ok, 1}
+
+      iex> import Lonely.Result
+      ...> fit({:ok, 1, 2})
+      {:ok, {1, 2}}
+
+      iex> import Lonely.Result
+      ...> "2017-10-11T12:13:14Z" |> DateTime.from_iso8601() |>  fit()
+      {:ok, {%DateTime{calendar: Calendar.ISO,
+                       day: 11,
+                       hour: 12,
+                       microsecond: {0, 0},
+                       minute: 13,
+                       month: 10,
+                       second: 14,
+                       std_offset: 0,
+                       time_zone: "Etc/UTC",
+                       utc_offset: 0,
+                       year: 2017,
+                       zone_abbr: "UTC"}, 0}}
+
+      iex> import Lonely.Result
+      ...> fit({:ok, 1, 2, 3})
+      {:ok, {1, 2, 3}}
+
+      iex> import Lonely.Result
+      ...> fit({:ok, 1, 2, 3, 4})
+      {:ok, {1, 2, 3, 4}}
+
+      iex> import Lonely.Result
+      ...> fit({:ok, 1, 2, 3, 4, 5})
+      {:ok, {1, 2, 3, 4, 5}}
+
+      iex> import Lonely.Result
+      ...> fit(:error)
+      {:error, nil}
+
+      iex> import Lonely.Result
+      ...> fit({:error, 1})
+      {:error, 1}
+
+      iex> import Lonely.Result
+      ...> fit(nil)
+      {:error, nil}
+  """
+  @spec fit(tuple | atom | nil) :: t
+  def fit(:ok), do: {:ok, nil}
+  def fit({:ok, a, b}), do: {:ok, {a, b}}
+  def fit({:ok, a, b, c}), do: {:ok, {a, b, c}}
+  def fit({:ok, a, b, c, d}), do: {:ok, {a, b, c, d}}
+  def fit({:ok, a, b, c, d, e}), do: {:ok, {a, b, c, d, e}}
+  def fit(a), do: wrap(a)
+
+  @doc """
   Wraps a value into a result.
 
       iex> import Lonely.Result
